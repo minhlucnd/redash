@@ -79,7 +79,8 @@ def idp_initiated(org_slug=None):
     authn_response.get_identity()
     user_info = authn_response.get_subject()
     email = user_info.text
-    name = "%s %s" % (authn_response.ava['FirstName'][0], authn_response.ava['LastName'][0])
+    name = "%s" % (authn_response.ava['http://schemas.microsoft.com/identity/claims/displayname'][0],)
+    # name = "%s %s" % (authn_response.ava['FirstName'][0], authn_response.ava['LastName'][0])
 
     # This is what as known as "Just In Time (JIT) provisioning".
     # What that means is that, if a user in a SAML assertion
@@ -113,7 +114,7 @@ def sp_initiated(org_slug=None):
     redirect_url = None
     # Select the IdP URL to send the AuthN request to
     for key, value in info['headers']:
-        if key == 'Location':
+        if key is 'Location':
             redirect_url = value
     response = redirect(redirect_url, code=302)
 
